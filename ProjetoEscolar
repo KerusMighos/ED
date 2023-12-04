@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int TipoChave;
+
+typedef struct TipoCelula *Apontador;
+
+typedef struct TipoItem {
+    TipoChave chave;
+} TipoItem;
+
+struct TipoCelula {
+    TipoItem Item;
+    Apontador Prox;
+};
+
+typedef struct {
+    Apontador Primeiro, Ultimo;
+    int tamanho;
+} TipoLista;
+
+void Inicia(TipoLista *Lista) {
+    Lista->Primeiro = (Apontador)malloc(sizeof(struct TipoCelula));
+    Lista->Ultimo = Lista->Primeiro;
+    Lista->Primeiro->Prox = NULL;
+    Lista->tamanho = 0;
+}
+
+int Vazia(TipoLista *Lista) {
+    return (Lista->Primeiro == Lista->Ultimo);
+}
+
+void Insere(TipoItem x, TipoLista *Lista) {
+    Lista->Ultimo->Prox = (Apontador)malloc(sizeof(struct TipoCelula));
+    Lista->Ultimo = Lista->Ultimo->Prox;
+    Lista->Ultimo->Item = x;
+    Lista->Ultimo->Prox = NULL;
+    Lista->tamanho++;
+}
+
+void Imprime(TipoLista Lista) {
+    Apontador Aux;
+    Aux = Lista.Primeiro->Prox;
+    while (Aux != NULL) {
+        printf("%d\n", Aux->Item.chave);
+        Aux = Aux->Prox;
+    }
+}
+
+void DestroiLista(TipoLista *Lista) {
+    Apontador Aux = Lista->Primeiro;
+    while (Aux != NULL) {
+        Apontador temp = Aux;
+        Aux = Aux->Prox;
+        free(temp);
+    }
+    Lista->Primeiro = Lista->Ultimo = NULL;
+    Lista->tamanho = 0;
+}
+
+int main() {
+    TipoLista minhaLista;
+    Inicia(&minhaLista);
+
+    TipoItem item1 = {5};
+    TipoItem item2 = {10};
+
+    Insere(item1, &minhaLista);
+    Insere(item2, &minhaLista);
+
+    Imprime(minhaLista);
+
+    DestroiLista(&minhaLista);
+
+    return 0;
+}
