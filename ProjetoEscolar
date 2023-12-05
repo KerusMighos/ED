@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef int TipoChave;
 
@@ -146,7 +147,18 @@ int main()
     return 0;
 }
 
-void cadastraAluno(){};
+void cadastraAluno(){
+
+    TipoAluno newAluno;
+
+    printf("Digite o nome do aluno: ");
+
+    // n sei como faz scanf de string
+    printf("");
+
+};
+
+
 void cadastraCurso(){};
 void cadastraTurma(){};
 void cadastraProfessor(){};
