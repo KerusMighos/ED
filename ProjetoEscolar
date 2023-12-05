@@ -74,3 +74,30 @@ int main() {
 
     return 0;
 }
+
+
+void Menu(){
+    int continua = 1;
+    int opcao = 0;
+    while (continua)
+    {
+        printf("1 - Cadastrar Aluno");
+
+
+        printf("Digite o numero da opcao desejada: ");
+        scanf("%d", &opcao);
+        
+        switch (opcao)
+        {
+        case 1:
+            cadastraAluno();
+            break;
+        
+        default:
+            printf("Digite uma opcao valida!!!");
+            break;
+        }
+
+    }
+    
+}
