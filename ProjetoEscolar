@@ -8,8 +8,16 @@ typedef struct TipoCelula *Apontador;
 
 typedef struct
 {
+    char nomeProfessor[80];
+    char disciplina[50];
+
+} TipoProfessor;
+
+typedef struct
+{
     char matricula[50];
     char nomeAluno[80];
+    
 } TipoAluno;
 
 typedef struct
@@ -18,6 +26,7 @@ typedef struct
     int cargaHoraria;
     int idCurso;
     char descricaoCurso[500];
+    
 } TipoCurso;
 
 typedef struct
@@ -25,14 +34,8 @@ typedef struct
     int identificador;
     TipoAluno listaDeAlunos[30]; // ERRADO n podemos usar estatica
     TipoProfessor professorResponsavel;
+    
 } TipoTurma;
-
-typedef struct
-{
-    char nomeProfessor[80];
-    char disciplina[50];
-
-} TipoProfessor;
 
 typedef union
 {
@@ -40,13 +43,14 @@ typedef union
     TipoCurso curso;
     TipoTurma turma;
     TipoProfessor professor;
+    
 } TipoItem;
 
 struct TipoCelula
 {
     TipoItem Item;
-
     Apontador Prox;
+    
 };
 
 typedef struct
@@ -54,6 +58,7 @@ typedef struct
     Apontador Primeiro, Ultimo;
     int TagTipo;
     int tamanho;
+    
 } TipoLista;
 
 TipoLista AlunosInstancia, CursosInstancia, TurmasInstancia, ProfessoresInstancia;
@@ -71,11 +76,11 @@ int Vazia(TipoLista *Lista)
     return (Lista->Primeiro == Lista->Ultimo);
 }
 
-void Insere(TipoItem x, TipoLista *Lista)
+void Insere(TipoItem *x, TipoLista *Lista)
 {
     Lista->Ultimo->Prox = (Apontador)malloc(sizeof(struct TipoCelula));
     Lista->Ultimo = Lista->Ultimo->Prox;
-    Lista->Ultimo->Item = x;
+    Lista->Ultimo->Item = *x;
     Lista->Ultimo->Prox = NULL;
     Lista->tamanho++;
 }
@@ -111,10 +116,45 @@ void ImprimeLista(TipoLista Lista)
     }
 }
 
-void Imprime1Aluno(TipoAluno aluno){};
-void Imprime1Curso(TipoCurso curso){};
-void Imprime1Turma(TipoTurma turma){};
-void Imprime1Professor(TipoProfessor professor){};
+void Imprime1Aluno(TipoAluno aluno){    
+    
+    printf("Matrícula: %s\n", aluno.matricula);
+    printf("Nome: %s\n", aluno.nomeAluno);
+    printf("\n");
+};
+
+void Imprime1Curso(TipoCurso curso){   
+    
+    printf("Nome do Curso: %s\n", curso.nomeDoCurso);
+    printf("Carga Horária: %d horas\n", curso.cargaHoraria);
+    printf("ID do Curso: %d\n", curso.idCurso);
+    printf("Descrição do Curso: %s\n", curso.descricaoCurso);
+    printf("\n");
+    
+};
+void Imprime1Turma(TipoTurma turma){
+    
+    printf("Identificador da Turma: %d\n", turma.identificador);
+    printf("Professor Responsável: %s\n", turma.professorResponsavel.nomeProfessor);
+    printf("Disciplina: %s\n", turma.professorResponsavel.disciplina);
+    
+    printf("Alunos Matriculados:\n");
+    
+    int i = 0;
+    while (turma.listaDeAlunos[i].matricula[0] != '\0') {
+        Imprime1Aluno(turma.listaDeAlunos[i]);
+        i++;
+    }
+
+    printf("\n");
+};
+
+void Imprime1Professor(TipoProfessor professor){
+    printf("Nome do Professor: %s\n", professor.nomeProfessor);
+    printf("Disciplina Lecionada: %s\n", professor.disciplina);
+    printf("\n");
+    
+};
 
 void DestroiLista(TipoLista *Lista)
 {
@@ -151,20 +191,120 @@ void cadastraAluno(){
 
     TipoAluno newAluno;
 
-    printf("Digite o nome do aluno: ");
+    printf("Digite o nome do aluno: \n");
+    fgets(newAluno.nomeAluno, sizeof(newAluno.nomeAluno), stdin);
+    newAluno.nomeAluno[strcspn(newAluno.nomeAluno, "\n")] = '\0';
 
-    // n sei como faz scanf de string
-    printf("");
+    printf("Digite a matricula do aluno: \n");
+    fgets(newAluno.matricula, sizeof(newAluno.matricula), stdin);
+    newAluno.matricula[strcspn(newAluno.matricula, "\n")] = '\0';
+
+    TipoItem item;
+    item.aluno = newAluno;
+    Insere(&item, &AlunosInstancia);
 
 };
 
+void cadastraCurso(){
+    
+    TipoCurso newCurso;
 
-void cadastraCurso(){};
-void cadastraTurma(){};
-void cadastraProfessor(){};
+    printf("Digite o nome do curso: ");
+    fgets(newCurso.nomeDoCurso, sizeof(newCurso.nomeDoCurso), stdin);
+    newCurso.nomeDoCurso[strcspn(newCurso.nomeDoCurso, "\n")] = '\0';
 
-void matriculaEmCurso(){};
+    printf("Digite a carga horaria do curso: ");
+    scanf("%d", &newCurso.cargaHoraria);
+    
+    printf("Digite o ID do curso: ");
+    scanf("%d", &newCurso.idCurso);
+    
+    printf("Digite a descrição do curso: ");
+    fgets(newCurso.descricaoCurso, sizeof(newCurso.descricaoCurso), stdin);
+    newCurso.descricaoCurso[strcspn(newCurso.descricaoCurso, "\n")] = '\0';
+    
+    TipoItem item;
+    item.curso = newCurso;
+    Insere(&item, &CursosInstancia);
+    
+};
+void cadastraTurma(){    
+    
+    TipoTurma newTurma;
+    
+    printf("Digite o número de identificação de turma: ");
+    scanf("%d", &newTurma.identificador);
+    
+    TipoItem item;
+    item.turma = newTurma;
+    Insere(&item, &TurmasInstancia);
+};
+void cadastraProfessor(){
+    
+    TipoProfessor newProfessor;
+    
+    printf("Digite o nome do Professor: ");
+    fgets(newProfessor.nomeProfessor, sizeof(newProfessor.nomeProfessor), stdin);
+    newProfessor.nomeProfessor[strcspn(newProfessor.nomeProfessor, "\n")] = '\0';
+    
+    printf("Digite o nome da disciplina a ser lecionada pelo mesmo: ");
+    fgets(newProfessor.disciplina, sizeof(newProfessor.disciplina), stdin);
+    newProfessor.disciplina[strcspn(newProfessor.disciplina, "\n")] = '\0';
+    
+    TipoItem item;
+    item.professor = newProfessor;
+    Insere(&item, &ProfessoresInstancia);
+  
+};
 
+void matriculaEmCurso(){
+    TipoTurma newTurma;
+    TipoAluno aluno;
+    TipoCurso curso;
+
+    printf("Digite a matricula do aluno: ");
+    fgets(aluno.matricula, sizeof(aluno.matricula), stdin);
+    aluno.matricula[strcspn(aluno.matricula, "\n")] = '\0';
+
+    printf("Digite o nome do curso desejado: ");
+    fgets(curso.nomeDoCurso, sizeof(curso.nomeDoCurso), stdin);
+    curso.nomeDoCurso[strcspn(curso.nomeDoCurso, "\n")] = '\0';
+
+    Apontador auxAluno = AlunosInstancia.Primeiro->Prox;
+    while (auxAluno != NULL) {
+        if (strcmp(auxAluno->Item.aluno.matricula, aluno.matricula) == 0) {
+            break;
+        }
+        auxAluno = auxAluno->Prox;
+    }
+
+    Apontador auxCurso = CursosInstancia.Primeiro->Prox;
+    while (auxCurso != NULL) {
+        if (strcmp(auxCurso->Item.curso.nomeDoCurso, curso.nomeDoCurso) == 0) {
+            break;
+        }
+        auxCurso = auxCurso->Prox;
+    }
+
+    if (auxAluno == NULL || auxCurso == NULL) {
+        printf("Aluno ou curso nao encontrado!\n");
+        return;
+    }
+
+    TipoTurma novaTurma;
+    novaTurma.identificador = TurmasInstancia.tamanho + 1;
+    novaTurma.professorResponsavel = ProfessoresInstancia.Primeiro->Prox->Item.professor;
+
+    novaTurma.listaDeAlunos[0] = auxAluno->Item.aluno;
+    novaTurma.listaDeAlunos[1].matricula[0] = '\0';
+
+    TipoItem item;
+    item.turma = newTurma;
+    
+    Insere(&item, &TurmasInstancia);
+
+    printf("Matricula realizada com sucesso!\n");
+};
 void designacaoProfessores(){};
 
 // void listaAlunos(){};
