@@ -59,45 +59,83 @@ void DestroiLista(TipoLista *Lista) {
 }
 
 int main() {
-    TipoLista minhaLista;
-    Inicia(&minhaLista);
+    TipoLista Alunos, Cursos, Turmas, Professores;
 
-    TipoItem item1 = {5};
-    TipoItem item2 = {10};
+    Inicia(&Alunos);
+    Inicia(&Cursos);
+    Inicia(&Turmas);
 
-    Insere(item1, &minhaLista);
-    Insere(item2, &minhaLista);
-
-    Imprime(minhaLista);
-
-    DestroiLista(&minhaLista);
+   
 
     return 0;
 }
 
+void cadastraAluno();
+void cadastraCurso();
+
+void matriculaEmCurso();
+void cadastraTurma();
+
+void designacaoProfessores();
+
+void listagemA();
+void listagemB();
+void listagemC();
 
 void Menu(){
     int continua = 1;
     int opcao = 0;
     while (continua)
     {
-        printf("1 - Cadastrar Aluno");
-
-
+        printf("1 - Cadastrar Aluno\n");
+        printf("2 - Cadastrar Curso\n");
+        printf("3 - Matrícula em Cursos\n");
+        printf("4 - Cadastrar Turma\n");
+        printf("5 - Designação de Professores\n");
+        printf("6 - Listagens A\n");
+        printf("7 - Listagens B\n");
+        printf("8 - Listagens C\n");
         printf("Digite o numero da opcao desejada: ");
+        
         scanf("%d", &opcao);
-        
-        switch (opcao)
-        {
-        case 1:
-            cadastraAluno();
-            break;
-        
-        default:
-            printf("Digite uma opcao valida!!!");
-            break;
+
+        switch (opcao) {
+            case 1:
+                cadastraAluno();
+                break;
+            case 2:
+                cadastraCurso();
+                break;
+            case 3:
+                matriculaEmCurso();
+                break;
+            case 4:
+                cadastraTurma();
+                break;
+            case 5:
+                designacaoProfessores();
+                break;
+            case 6:
+                listagemA();
+                break;
+            case 7:
+                listagemB();
+                break;
+            case 8:
+                listagemC();
+                break;
+            default:
+                printf("Digite uma opcao valida!!!\n");
+                break;
         }
 
     }
     
+}
+
+int Confirma(){
+    int op;
+    printf("Voce confirma? (0 cancela)");
+    scanf("%d", &op);
+    return op;
 }
