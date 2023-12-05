@@ -5,32 +5,71 @@ typedef int TipoChave;
 
 typedef struct TipoCelula *Apontador;
 
-typedef struct TipoItem {
-    TipoChave chave;
+typedef struct
+{
+    char matricula[50];
+    char nomeAluno[80];
+} AlunoS;
+
+typedef struct
+{
+    char nomeDoCurso[50];
+    int cargaHoraria;
+    int idCurso;
+    char descricaoCurso[500];
+} CursoS;
+
+typedef struct
+{
+    int identificador;
+    AlunoS listaDeAlunos[30]; // ERRADO n podemos usar estatica
+    ProfessorS professorResponsavel;
+} TurmaS;
+
+typedef struct
+{
+    char nomeProfessor[80];
+    char disciplina[50];
+
+} ProfessorS;
+
+typedef union
+{
+    AlunoS aluno;
+    CursoS materia;
+    TurmaS turma;
+    ProfessorS professor;
 } TipoItem;
 
-struct TipoCelula {
+struct TipoCelula
+{
     TipoItem Item;
+
     Apontador Prox;
 };
 
-typedef struct {
+typedef struct
+{
     Apontador Primeiro, Ultimo;
+    int TagTipo;
     int tamanho;
 } TipoLista;
 
-void Inicia(TipoLista *Lista) {
+void Inicia(TipoLista *Lista)
+{
     Lista->Primeiro = (Apontador)malloc(sizeof(struct TipoCelula));
     Lista->Ultimo = Lista->Primeiro;
     Lista->Primeiro->Prox = NULL;
     Lista->tamanho = 0;
 }
 
-int Vazia(TipoLista *Lista) {
+int Vazia(TipoLista *Lista)
+{
     return (Lista->Primeiro == Lista->Ultimo);
 }
 
-void Insere(TipoItem x, TipoLista *Lista) {
+void Insere(TipoItem x, TipoLista *Lista)
+{
     Lista->Ultimo->Prox = (Apontador)malloc(sizeof(struct TipoCelula));
     Lista->Ultimo = Lista->Ultimo->Prox;
     Lista->Ultimo->Item = x;
@@ -38,18 +77,41 @@ void Insere(TipoItem x, TipoLista *Lista) {
     Lista->tamanho++;
 }
 
-void Imprime(TipoLista Lista) {
+void Imprime(TipoLista Lista)
+{
     Apontador Aux;
     Aux = Lista.Primeiro->Prox;
-    while (Aux != NULL) {
-        printf("%d\n", Aux->Item.chave);
+    while (Aux != NULL)
+    {
+
+        switch (Lista.TagTipo)
+        {
+        case 1:
+            ImprimeAluno();
+            break;
+
+        case 2:
+            ImprimeCurso();
+            break;
+        case 3:
+            ImprimeTurma();
+            break;
+        case 4:
+            ImprimeProfessor;
+            break;
+        default:
+            break;
+        }
+
         Aux = Aux->Prox;
     }
 }
 
-void DestroiLista(TipoLista *Lista) {
+void DestroiLista(TipoLista *Lista)
+{
     Apontador Aux = Lista->Primeiro;
-    while (Aux != NULL) {
+    while (Aux != NULL)
+    {
         Apontador temp = Aux;
         Aux = Aux->Prox;
         free(temp);
@@ -58,14 +120,16 @@ void DestroiLista(TipoLista *Lista) {
     Lista->tamanho = 0;
 }
 
-int main() {
+int main()
+{
     TipoLista Alunos, Cursos, Turmas, Professores;
 
     Inicia(&Alunos);
     Inicia(&Cursos);
     Inicia(&Turmas);
+    Inicia(&Professores);
 
-   
+    Menu();
 
     return 0;
 }
@@ -82,7 +146,13 @@ void listagemA();
 void listagemB();
 void listagemC();
 
-void Menu(){
+void ImprimeAluno();
+void ImprimeCurso();
+void ImprimeTurma();
+void ImprimeProfessor();
+
+void Menu()
+{
     int continua = 1;
     int opcao = 0;
     while (continua)
@@ -96,44 +166,44 @@ void Menu(){
         printf("7 - Listagens B\n");
         printf("8 - Listagens C\n");
         printf("Digite o numero da opcao desejada: ");
-        
+
         scanf("%d", &opcao);
 
-        switch (opcao) {
-            case 1:
-                cadastraAluno();
-                break;
-            case 2:
-                cadastraCurso();
-                break;
-            case 3:
-                matriculaEmCurso();
-                break;
-            case 4:
-                cadastraTurma();
-                break;
-            case 5:
-                designacaoProfessores();
-                break;
-            case 6:
-                listagemA();
-                break;
-            case 7:
-                listagemB();
-                break;
-            case 8:
-                listagemC();
-                break;
-            default:
-                printf("Digite uma opcao valida!!!\n");
-                break;
+        switch (opcao)
+        {
+        case 1:
+            cadastraAluno();
+            break;
+        case 2:
+            cadastraCurso();
+            break;
+        case 3:
+            matriculaEmCurso();
+            break;
+        case 4:
+            cadastraTurma();
+            break;
+        case 5:
+            designacaoProfessores();
+            break;
+        case 6:
+            listagemA();
+            break;
+        case 7:
+            listagemB();
+            break;
+        case 8:
+            listagemC();
+            break;
+        default:
+            printf("Digite uma opcao valida!!!\n");
+            break;
         }
-
     }
-    
 }
 
-int Confirma(){
+int Confirma()
+{
     int op;
     printf("Voce confirma? (0 cancela)");
     scanf("%d", &op);
