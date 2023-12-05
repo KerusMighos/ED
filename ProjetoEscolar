@@ -142,8 +142,8 @@ void cadastraTurma();
 
 void designacaoProfessores();
 
-void listagemA();
-void listagemB();
+void listaAlunos();
+void listaCursos();
 void listagemC();
 
 void ImprimeAluno();
@@ -162,9 +162,10 @@ void Menu()
         printf("3 - Matrícula em Cursos\n");
         printf("4 - Cadastrar Turma\n");
         printf("5 - Designação de Professores\n");
-        printf("6 - Listagens A\n");
-        printf("7 - Listagens B\n");
-        printf("8 - Listagens C\n");
+        printf("6 - Lista Alunos\n");
+        printf("7 - Lista Cursos\n");
+        printf("8 - Lista Turmas\n");
+        printf("9 - Lista Professores\n");
         printf("Digite o numero da opcao desejada: ");
 
         scanf("%d", &opcao);
@@ -187,13 +188,16 @@ void Menu()
             designacaoProfessores();
             break;
         case 6:
-            listagemA();
+            listaAlunos();
             break;
         case 7:
-            listagemB();
+            listaCursos();
             break;
         case 8:
-            listagemC();
+            listaTurmas();
+            break;
+        case 9:
+            listaProfessores();
             break;
         default:
             printf("Digite uma opcao valida!!!\n");
