@@ -9,7 +9,7 @@ typedef struct
 {
     char matricula[50];
     char nomeAluno[80];
-} AlunoS;
+} TipoAluno;
 
 typedef struct
 {
@@ -17,28 +17,28 @@ typedef struct
     int cargaHoraria;
     int idCurso;
     char descricaoCurso[500];
-} CursoS;
+} TipoCurso;
 
 typedef struct
 {
     int identificador;
-    AlunoS listaDeAlunos[30]; // ERRADO n podemos usar estatica
-    ProfessorS professorResponsavel;
-} TurmaS;
+    TipoAluno listaDeAlunos[30]; // ERRADO n podemos usar estatica
+    TipoProfessor professorResponsavel;
+} TipoTurma;
 
 typedef struct
 {
     char nomeProfessor[80];
     char disciplina[50];
 
-} ProfessorS;
+} TipoProfessor;
 
 typedef union
 {
-    AlunoS aluno;
-    CursoS materia;
-    TurmaS turma;
-    ProfessorS professor;
+    TipoAluno aluno;
+    TipoCurso curso;
+    TipoTurma turma;
+    TipoProfessor professor;
 } TipoItem;
 
 struct TipoCelula
@@ -54,6 +54,8 @@ typedef struct
     int TagTipo;
     int tamanho;
 } TipoLista;
+
+TipoLista AlunosInstancia, CursosInstancia, TurmasInstancia, ProfessoresInstancia;
 
 void Inicia(TipoLista *Lista)
 {
@@ -77,27 +79,28 @@ void Insere(TipoItem x, TipoLista *Lista)
     Lista->tamanho++;
 }
 
-void Imprime(TipoLista Lista)
+void ImprimeLista(TipoLista Lista)
 {
     Apontador Aux;
     Aux = Lista.Primeiro->Prox;
     while (Aux != NULL)
     {
 
+        TipoItem itemNow = Aux->Item;
+
         switch (Lista.TagTipo)
         {
         case 1:
-            ImprimeAluno();
+            Imprime1Aluno(itemNow.aluno);
             break;
-
         case 2:
-            ImprimeCurso();
+            Imprime1Curso(itemNow.curso);
             break;
         case 3:
-            ImprimeTurma();
+            Imprime1Turma(itemNow.turma);
             break;
         case 4:
-            ImprimeProfessor;
+            Imprime1Professor(itemNow.professor);
             break;
         default:
             break;
@@ -106,6 +109,11 @@ void Imprime(TipoLista Lista)
         Aux = Aux->Prox;
     }
 }
+
+void Imprime1Aluno(TipoAluno aluno){};
+void Imprime1Curso(TipoCurso curso){};
+void Imprime1Turma(TipoTurma turma){};
+void Imprime1Professor(TipoProfessor professor){};
 
 void DestroiLista(TipoLista *Lista)
 {
@@ -122,34 +130,36 @@ void DestroiLista(TipoLista *Lista)
 
 int main()
 {
-    TipoLista Alunos, Cursos, Turmas, Professores;
 
-    Inicia(&Alunos);
-    Inicia(&Cursos);
-    Inicia(&Turmas);
-    Inicia(&Professores);
+    Inicia(&AlunosInstancia);
+    Inicia(&CursosInstancia);
+    Inicia(&TurmasInstancia);
+    Inicia(&ProfessoresInstancia);
+
+    AlunosInstancia.TagTipo = 1;
+    CursosInstancia.TagTipo = 2;
+    TurmasInstancia.TagTipo = 3;
+    ProfessoresInstancia.TagTipo = 4;
 
     Menu();
 
     return 0;
 }
 
-void cadastraAluno();
-void cadastraCurso();
+void cadastraAluno(){};
+void cadastraCurso(){};
+void cadastraTurma(){};
+void cadastraProfessor(){};
 
-void matriculaEmCurso();
-void cadastraTurma();
+void matriculaEmCurso(){};
 
-void designacaoProfessores();
+void designacaoProfessores(){};
 
-void listaAlunos();
-void listaCursos();
-void listagemC();
+// void listaAlunos(){};
+// void listaCursos(){};
+// void listaTurmas(){};
+// void listaProfessores(){};
 
-void ImprimeAluno();
-void ImprimeCurso();
-void ImprimeTurma();
-void ImprimeProfessor();
 
 void Menu()
 {
@@ -188,16 +198,16 @@ void Menu()
             designacaoProfessores();
             break;
         case 6:
-            listaAlunos();
+            ImprimeLista(AlunosInstancia);
             break;
         case 7:
-            listaCursos();
+            ImprimeLista(CursosInstancia);
             break;
         case 8:
-            listaTurmas();
+            ImprimeLista(TurmasInstancia);
             break;
         case 9:
-            listaProfessores();
+            ImprimeLista(ProfessoresInstancia);
             break;
         default:
             printf("Digite uma opcao valida!!!\n");
