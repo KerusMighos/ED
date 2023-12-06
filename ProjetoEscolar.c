@@ -319,8 +319,8 @@ void cadastraTurma()
     TipoTurma newTurma;
 
     printf("Digite o número de identificação de turma: ");
+    getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
     scanf("%d", &newTurma.ID);
-    getchar();
 
     if (getById(TurmasInstancia, newTurma.ID))
     {
@@ -332,7 +332,6 @@ void cadastraTurma()
     item.turma = newTurma;
     Insere(&item, &TurmasInstancia);
 
-    Sleep(3000);   // NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
     system("cls"); // LIMPA A TELA NO WINDOWS
 };
 void cadastraProfessor()
@@ -393,6 +392,25 @@ void Menu()
 {
     int continua = 1;
     int opcao = 0;
+int opcaoEncerrar;
+        printf("==== Escola Desenvolver ====\n");
+        printf("   _________  \n");
+        printf("  /         \\  \n");
+        printf(" |           | \n");
+        printf(" | [ ]   [ ] |\n");
+        printf(" |           |\n");
+        printf(" |Bem vindos!|\n");
+        printf(" |___________|\n");
+        printf(" |           |\n");
+        printf(" |           |\n");
+        printf(" |___________|\n");
+        printf ("A aprendizagem é a única coisa que a mente nunca se cansa, nunca tem medo e nunca se arrepende.- Leonardo da Vinci");
+        Sleep(5000);
+        system ("cls");
+
+        printf ("Desenvolvido por: \nAdriano Victor N. Ribeiro\nAntônio Salgueiro Fernandes\nFilipe da Silva Ribeiro\nJoão Vitor Buissine");
+        Sleep (10000);
+        system ("cls");
     while (continua)
     {
         printf("1 - Cadastrar Aluno\n");
@@ -404,6 +422,7 @@ void Menu()
         printf("7 - Lista Cursos\n");
         printf("8 - Lista Turmas\n");
         printf("9 - Lista Professores\n");
+printf("10 - Finalizar Sessão \n");
         printf("Digite o numero da opcao desejada: ");
 
         scanf("%d", &opcao);
@@ -437,6 +456,22 @@ void Menu()
             break;
         case 9:
             ImprimeLista(ProfessoresInstancia);
+            break;
+case 10:
+            printf ("Deseja encerrar o programa ? (1) = Sim - (AnyKey) = Não\n");
+            printf ("");
+            scanf ("%d",&opcaoEncerrar);
+            system ("cls");
+            if (opcaoEncerrar == 1){
+                printf ("O programa será finalizado em alguns instantes !\n");
+                printf ("Obrigado por utilizar o nosso serviço \n");
+                Sleep (3000);
+                continua = 0;
+                break;
+            }
+            else{
+              break;
+            }
             break;
         default:
             printf("Digite uma opcao valida!!!\n");
