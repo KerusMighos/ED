@@ -9,6 +9,9 @@ typedef struct TipoCelula *Apontador;
 
 typedef struct
 {
+    int ID;
+    int idTurma;
+
     char nomeProfessor[80];
     char disciplina[50];
 
@@ -16,25 +19,28 @@ typedef struct
 
 typedef struct
 {
-    char matricula[50];
+    int ID;
+    int idTurma;
+
     char nomeAluno[80];
+    int idade;
 
 } TipoAluno;
 
 typedef struct
 {
+    int ID;
+
     char nomeDoCurso[50];
     int cargaHoraria;
-    int idCurso;
     char descricaoCurso[500];
 
 } TipoCurso;
 
 typedef struct
 {
-    int identificador;
-    TipoAluno listaDeAlunos[30];
-    TipoProfessor professorResponsavel;
+    int ID;
+    int idProfessor;
 
 } TipoTurma;
 
@@ -51,7 +57,6 @@ struct TipoCelula
 {
     TipoItem Item;
     Apontador Prox;
-
 };
 
 typedef struct
@@ -61,8 +66,6 @@ typedef struct
     int tamanho;
 
 } TipoLista;
-
-
 
 TipoLista AlunosInstancia, CursosInstancia, TurmasInstancia, ProfessoresInstancia;
 
@@ -119,32 +122,35 @@ void ImprimeLista(TipoLista Lista)
     }
 }
 
-void Imprime1Aluno(TipoAluno aluno){
+void Imprime1Aluno(TipoAluno aluno)
+{
 
     printf("Matrícula: %s\n", aluno.matricula);
     printf("Nome: %s\n", aluno.nomeAluno);
     printf("\n");
 };
 
-void Imprime1Curso(TipoCurso curso){
+void Imprime1Curso(TipoCurso curso)
+{
 
     printf("Nome do Curso: %s\n", curso.nomeDoCurso);
     printf("Carga Horária: %d horas\n", curso.cargaHoraria);
-    printf("ID do Curso: %d\n", curso.idCurso);
+    printf("ID do Curso: %d\n", curso.ID);
     printf("Descrição do Curso: %s\n", curso.descricaoCurso);
     printf("\n");
-
 };
-void Imprime1Turma(TipoTurma turma){
+void Imprime1Turma(TipoTurma turma)
+{
 
-    printf("Identificador da Turma: %d\n", turma.identificador);
+    printf("Identificador da Turma: %d\n", turma.ID);
     printf("Professor Responsável: %s\n", turma.professorResponsavel.nomeProfessor);
     printf("Disciplina: %s\n", turma.professorResponsavel.disciplina);
 
     printf("Alunos Matriculados:\n");
 
     int i = 0;
-    while (turma.listaDeAlunos[i].matricula[0] != '\0') {
+    while (turma.listaDeAlunos[i].matricula[0] != '\0')
+    {
         Imprime1Aluno(turma.listaDeAlunos[i]);
         i++;
     }
@@ -152,11 +158,11 @@ void Imprime1Turma(TipoTurma turma){
     printf("\n");
 };
 
-void Imprime1Professor(TipoProfessor professor){
+void Imprime1Professor(TipoProfessor professor)
+{
     printf("Nome do Professor: %s\n", professor.nomeProfessor);
     printf("Disciplina Lecionada: %s\n", professor.disciplina);
     printf("\n");
-
 };
 
 void DestroiLista(TipoLista *Lista)
@@ -190,156 +196,188 @@ int main()
     return 0;
 }
 
-void cadastraAluno(){
+int existeID(TipoLista *Lista, int idToSearch)
+{
+
+    Apontador Aux;
+    Aux = Lista.Primeiro;
+    while (Aux != NULL)
+    {
+
+        TipoItem itemNow = Aux->Item;
+
+        switch (Lista.TagTipo)
+        {
+        case 1:
+            if (itemNow.aluno.ID == idToSearch)
+            {
+                return 1;
+            }
+            break;
+        case 2:
+            if (itemNow.curso.ID == idToSearch)
+            {
+                return 1;
+            }
+            break;
+        case 3:
+            if (itemNow.turma.ID == idToSearch)
+            {
+                return 1;
+            }
+            break;
+        case 4:
+            if (itemNow.professor.ID == idToSearch)
+            {
+                return 1;
+            }
+            break;
+        default:
+            break;
+        }
+
+        Aux = Aux->Prox;
+    }
+
+    return 0;
+}
+
+void cadastraAluno()
+{
 
     TipoAluno newAluno;
 
     printf("Digite o nome do aluno: ");
     fgets(newAluno.nomeAluno, sizeof(newAluno.nomeAluno), stdin);
-    newAluno.nomeAluno[strcspn(newAluno.nomeAluno, "\n")];
-    getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
+    newAluno.nomeAluno[strcspn(newAluno.nomeAluno, "\n")] = '\0';
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
 
-    printf("Digite a matricula do aluno: ");
-    fgets(newAluno.matricula, sizeof(newAluno.matricula), stdin);
-    newAluno.matricula[strcspn(newAluno.matricula, "\n")];
-    getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
+    printf("Digite a matricula do aluno: (apenas numeros)");
 
-    system ("cls");
-    printf ("Aluno Cadastrado com Sucesso !\n");
-    printf ("Aguarde alguns segundos para retornar ao Menu Principal");
+    scanf("%d", &newAluno.ID);
 
-    Sleep(3000); //NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
-    system ("cls");//LIMPA A TELA NO WINDOWS
+    if (existeID(AlunosInstancia, newAluno.ID))
+    {
+        printf("Essa matricula ja está em uso!!!");
+        return
+    }
 
+    system("cls");
+    printf("Aluno Cadastrado com Sucesso !\n");
+    printf("Aguarde alguns segundos para retornar ao Menu Principal");
 
+    Sleep(3000);   // NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
+    system("cls"); // LIMPA A TELA NO WINDOWS
 
     TipoItem item;
     item.aluno = newAluno;
     Insere(&item, &AlunosInstancia);
-
 };
 
-void cadastraCurso(){
+void cadastraCurso()
+{
 
     TipoCurso newCurso;
 
     printf("Digite o nome do curso: ");
     fgets(newCurso.nomeDoCurso, sizeof(newCurso.nomeDoCurso), stdin);
     newCurso.nomeDoCurso[strcspn(newCurso.nomeDoCurso, "\n")] = '\0';
-    getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
-
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
 
     printf("Digite a carga horaria do curso: ");
     scanf("%d", &newCurso.cargaHoraria);
-    getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
 
-
-    printf("Digite o ID do curso: ");
-    scanf("%d", &newCurso.idCurso);
-    getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
-
+    printf("Digite o ID do curso: (apenas numeros)");
+    scanf("%d", &newCurso.ID);
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
 
     printf("Digite a descrição do curso: ");
     fgets(newCurso.descricaoCurso, sizeof(newCurso.descricaoCurso), stdin);
     newCurso.descricaoCurso[strcspn(newCurso.descricaoCurso, "\n")] = '\0';
-    getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
-    system ("cls");
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
+    system("cls");
 
-    printf ("Curso cadastrado com sucesso !");
-    printf ("Aguarde alguns segundos para retornar ao Menu Principal");
+    if (existeID(CursosInstancia, newCurso.ID))
+    {
+        printf("Esse id de curso já em uso!!!");
+        return
+    }
+
+    printf("Curso cadastrado com sucesso !");
+    printf("Aguarde alguns segundos para retornar ao Menu Principal");
     Sleep(3000);
 
     TipoItem item;
     item.curso = newCurso;
     Insere(&item, &CursosInstancia);
-
 };
-void cadastraTurma(){
+void cadastraTurma()
+{
 
     TipoTurma newTurma;
 
     printf("Digite o número de identificação de turma: ");
-    scanf("%d", &newTurma.identificador);
+    scanf("%d", &newTurma.ID);
     getchar();
+
+    if (existeID(TurmasInstancia, newTurma.ID))
+    {
+        printf("Esse id de turma já em uso!!!");
+        return
+    }
 
     TipoItem item;
     item.turma = newTurma;
     Insere(&item, &TurmasInstancia);
 
-    Sleep(3000); //NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
-    system ("cls");//LIMPA A TELA NO WINDOWS
+    Sleep(3000);   // NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
+    system("cls"); // LIMPA A TELA NO WINDOWS
 };
-void cadastraProfessor(){
+void cadastraProfessor()
+{
 
     TipoProfessor newProfessor;
 
     printf("Digite o nome do Professor: ");
     fgets(newProfessor.nomeProfessor, sizeof(newProfessor.nomeProfessor), stdin);
     newProfessor.nomeProfessor[strcspn(newProfessor.nomeProfessor, "\n")] = '\0';
-    getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
-
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
 
     printf("Digite o nome da disciplina a ser lecionada pelo mesmo: ");
     fgets(newProfessor.disciplina, sizeof(newProfessor.disciplina), stdin);
     newProfessor.disciplina[strcspn(newProfessor.disciplina, "\n")] = '\0';
-    getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
 
+    if (existeID(ProfessoresInstancia, newProfessor.ID))
+    {
+        printf("Esse id de professor já em uso!!!");
+        return
+    }
 
     TipoItem item;
     item.professor = newProfessor;
     Insere(&item, &ProfessoresInstancia);
-
 };
 
-void matriculaEmCurso(){
-    TipoTurma newTurma;
-    TipoAluno aluno;
-    TipoCurso curso;
+void matriculaAlunoEmTurma()
+{
+  
+    int idTurma, idAluno;
 
-    printf("Digite a matricula do aluno: ");
-    fgets(aluno.matricula, sizeof(aluno.matricula), stdin);
-    aluno.matricula[strcspn(aluno.matricula, "\n")] = '\0';
-    getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
+    printf("Digite a matricula do aluno: (apenas numeros)");
+    scanf("%d", &idAluno);
 
+    printf("Digite o ID da turma desejado: ");
+    scanf("%d", &idTurma);
 
-    printf("Digite o nome do curso desejado: ");
-    fgets(curso.nomeDoCurso, sizeof(curso.nomeDoCurso), stdin);
-    curso.nomeDoCurso[strcspn(curso.nomeDoCurso, "\n")] = '\0';
-    getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
-
-
-    Apontador auxAluno = AlunosInstancia.Primeiro->Prox;
-    while (auxAluno != NULL) {
-        if (strcmp(auxAluno->Item.aluno.matricula, aluno.matricula) == 0) {
-            break;
-        }
-        auxAluno = auxAluno->Prox;
+    if (!existeID(AlunosInstancia, idAluno) || !existeID(TurmasInstancia, idTurma))
+    {
+        printf("Aluno ou turma nao encontrado!\n");
+        return
     }
 
-    Apontador auxCurso = CursosInstancia.Primeiro->Prox;
-    while (auxCurso != NULL) {
-        if (strcmp(auxCurso->Item.curso.nomeDoCurso, curso.nomeDoCurso) == 0) {
-            break;
-        }
-        auxCurso = auxCurso->Prox;
-    }
-
-    if (auxAluno == NULL || auxCurso == NULL) {
-        printf("Aluno ou curso nao encontrado!\n");
-        return;
-    }
-
-    TipoTurma novaTurma;
-    novaTurma.identificador = TurmasInstancia.tamanho + 1;
-    novaTurma.professorResponsavel = ProfessoresInstancia.Primeiro->Prox->Item.professor;
-
-    novaTurma.listaDeAlunos[0] = auxAluno->Item.aluno;
-    novaTurma.listaDeAlunos[1].matricula[0] = '\0';
-
-    TipoItem item;
-    item.turma = newTurma;
-
-    Insere(&item, &TurmasInstancia);
+    getById(idAluno, AlunosInstancia) // TODO
 
     printf("Matricula realizada com sucesso!\n");
 };
@@ -349,7 +387,6 @@ void designacaoProfessores(){};
 // void listaCursos(){};
 // void listaTurmas(){};
 // void listaProfessores(){};
-
 
 void Menu()
 {
@@ -369,7 +406,7 @@ void Menu()
         printf("Digite o numero da opcao desejada: ");
 
         scanf("%d", &opcao);
-        system ("cls");
+        system("cls");
         switch (opcao)
         {
         case 1:
@@ -380,7 +417,7 @@ void Menu()
             cadastraCurso();
             break;
         case 3:
-            matriculaEmCurso();
+            matriculaAlunoEmTurma();
             break;
         case 4:
             cadastraTurma();
