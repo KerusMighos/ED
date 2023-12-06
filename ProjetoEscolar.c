@@ -96,6 +96,7 @@ void Imprime1Aluno(TipoAluno aluno)
 
     printf("Matrícula: %d\n", aluno.ID);
     printf("Nome: %s\n", aluno.nomeAluno);
+    printf("Turma matriculado: %d\n", aluno.idTurma);
     printf("\n");
 };
 
@@ -108,12 +109,6 @@ void Imprime1Curso(TipoCurso curso)
     printf("Descrição do Curso: %s\n", curso.descricaoCurso);
     printf("\n");
 };
-void Imprime1Turma(TipoTurma turma)
-{
-
-    printf("Identificador da Turma: %d\n", turma.ID);
-    printf("Professor Responsável: %d\n", turma.idProfessor);
-};
 
 void Imprime1Professor(TipoProfessor professor)
 {
@@ -122,49 +117,6 @@ void Imprime1Professor(TipoProfessor professor)
     printf("\n");
 };
 
-void ImprimeLista(TipoLista Lista)
-{
-    Apontador Aux;
-    Aux = Lista.Primeiro->Prox;
-    while (Aux != NULL)
-    {
-
-        TipoItem itemNow = Aux->Item;
-
-        switch (Lista.TagTipo)
-        {
-        case 1:
-            Imprime1Aluno(itemNow.aluno);
-            break;
-        case 2:
-            Imprime1Curso(itemNow.curso);
-            break;
-        case 3:
-            Imprime1Turma(itemNow.turma);
-            break;
-        case 4:
-            Imprime1Professor(itemNow.professor);
-            break;
-        default:
-            break;
-        }
-
-        Aux = Aux->Prox;
-    }
-}
-
-void DestroiLista(TipoLista *Lista)
-{
-    Apontador Aux = Lista->Primeiro;
-    while (Aux != NULL)
-    {
-        Apontador temp = Aux;
-        Aux = Aux->Prox;
-        free(temp);
-    }
-    Lista->Primeiro = Lista->Ultimo = NULL;
-    Lista->tamanho = 0;
-}
 
 TipoItem *getById(int idToSearch, TipoLista Lista)
 {
@@ -211,6 +163,70 @@ TipoItem *getById(int idToSearch, TipoLista Lista)
     }
 
     return NULL;
+}
+
+
+void Imprime1Turma(TipoTurma turma)
+{
+
+    printf("Identificador da Turma: %d\n", turma.ID);
+
+    
+
+    if (turma.idProfessor) {
+
+        printf("Professor Responsável: ");
+        Imprime1Professor(getById(turma.idProfessor, ProfessoresInstancia)->professor);
+    } else {
+        printf("Nenhum professor responsavel");
+    }
+
+
+};
+
+
+void ImprimeLista(TipoLista Lista)
+{
+    Apontador Aux;
+    Aux = Lista.Primeiro->Prox;
+    while (Aux != NULL)
+    {
+
+        TipoItem itemNow = Aux->Item;
+
+        switch (Lista.TagTipo)
+        {
+        case 1:
+            Imprime1Aluno(itemNow.aluno);
+            break;
+        case 2:
+            Imprime1Curso(itemNow.curso);
+            break;
+        case 3:
+            Imprime1Turma(itemNow.turma);
+            break;
+        case 4:
+            Imprime1Professor(itemNow.professor);
+            break;
+        default:
+            break;
+        }
+
+        Aux = Aux->Prox;
+    }
+}
+
+void DestroiLista(TipoLista *Lista)
+{
+    Apontador Aux = Lista->Primeiro;
+    while (Aux != NULL)
+    {
+        Apontador temp = Aux;
+        Aux = Aux->Prox;
+        free(temp);
+    }
+    Lista->Primeiro = Lista->Ultimo = NULL;
+    Lista->tamanho = 0;
 }
 
 void cadastraAluno()
@@ -357,7 +373,7 @@ void matriculaAlunoEmTurma()
         return;
     }
 
-    getById(idAluno, AlunosInstancia)->aluno.idTurma = idTurma; // TODO
+    getById(idAluno, AlunosInstancia)->aluno.idTurma = idTurma; 
 
     printf("Matricula realizada com sucesso!\n");
 };
@@ -377,7 +393,7 @@ void designacaoProfessores()
         return;
     }
 
-    getById(idProfessor, ProfessoresInstancia)->professor.idTurma = idTurma; // TODO
+    getById(idProfessor, ProfessoresInstancia)->professor.idTurma = idTurma;
 
     printf("Matricula realizada com sucesso!\n");
 };
@@ -412,7 +428,7 @@ void Menu()
     system("cls");
     while (continua)
     {
-        printf("1 - Cadastrar Aluno\n");
+        printf("\n\n1 - Cadastrar Aluno\n");
         printf("2 - Cadastrar Curso\n");
         printf("3 - Matrícula em Cursos\n");
         printf("4 - Cadastrar Turma\n");
@@ -458,7 +474,7 @@ void Menu()
             break;
         case 10:
             printf("Deseja encerrar o programa ? (1) = Sim - (AnyKey) = Não\n");
-            printf("");
+            printf(" ");
             scanf("%d", &opcaoEncerrar);
             system("cls");
             if (opcaoEncerrar == 1)
