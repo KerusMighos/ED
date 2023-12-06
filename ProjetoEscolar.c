@@ -113,7 +113,6 @@ void Imprime1Turma(TipoTurma turma)
 
     printf("Identificador da Turma: %d\n", turma.ID);
     printf("Professor Responsável: %d\n", turma.idProfessor);
-
 };
 
 void Imprime1Professor(TipoProfessor professor)
@@ -166,7 +165,6 @@ void DestroiLista(TipoLista *Lista)
     Lista->Primeiro = Lista->Ultimo = NULL;
     Lista->tamanho = 0;
 }
-
 
 TipoItem *getById(int idToSearch, TipoLista Lista)
 {
@@ -221,10 +219,10 @@ void cadastraAluno()
     TipoAluno newAluno;
 
     printf("Digite o nome do aluno: ");
-getchar();
+    getchar();
     fgets(newAluno.nomeAluno, sizeof(newAluno.nomeAluno), stdin);
     newAluno.nomeAluno[strcspn(newAluno.nomeAluno, "\n")] = '\0';
- // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
+    // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
 
     printf("Digite a matricula do aluno: (apenas numeros)");
 
@@ -240,7 +238,7 @@ getchar();
     printf("Aluno Cadastrado com Sucesso !\n");
     printf("Aguarde alguns segundos para retornar ao Menu Principal");
 
-    //Sleep(3000);   // NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
+    // Sleep(3000);   // NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
     system("cls"); // LIMPA A TELA NO WINDOWS
 
     TipoItem item;
@@ -254,12 +252,12 @@ void cadastraCurso()
     TipoCurso newCurso;
 
     printf("Digite o nome do curso: ");
-getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
     fgets(newCurso.nomeDoCurso, sizeof(newCurso.nomeDoCurso), stdin);
     newCurso.nomeDoCurso[strcspn(newCurso.nomeDoCurso, "\n")] = '\0';
-    
+
     printf("Digite a carga horaria do curso: ");
-getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
     scanf("%d", &newCurso.cargaHoraria);
 
     printf("Digite o ID do curso: (apenas numeros)");
@@ -267,7 +265,7 @@ getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer d
     scanf("%d", &newCurso.ID);
 
     printf("Digite a descrição do curso: ");
-getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
     fgets(newCurso.descricaoCurso, sizeof(newCurso.descricaoCurso), stdin);
     newCurso.descricaoCurso[strcspn(newCurso.descricaoCurso, "\n")] = '\0';
     system("cls");
@@ -280,11 +278,11 @@ getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer d
 
     printf("Curso cadastrado com sucesso !");
     printf("Aguarde alguns segundos para retornar ao Menu Principal");
-    //Sleep(3000);
+    // Sleep(3000);
 
-    printf ("Curso cadastrado com sucesso !\n");
-    printf ("Aguarde alguns segundos para retornar ao Menu Principal");
-    //Sleep(3000);
+    printf("Curso cadastrado com sucesso !\n");
+    printf("Aguarde alguns segundos para retornar ao Menu Principal");
+    // Sleep(3000);
     system("cls");
 
     TipoItem item;
@@ -297,7 +295,7 @@ void cadastraTurma()
     TipoTurma newTurma;
 
     printf("Digite o número de identificação de turma: ");
-    getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
     scanf("%d", &newTurma.ID);
 
     if (getById(newTurma.ID, TurmasInstancia))
@@ -310,10 +308,10 @@ void cadastraTurma()
     item.turma = newTurma;
     Insere(&item, &TurmasInstancia);
 
-    printf ("Número registrado com sucesso !\n");
-    printf ("Aguarde alguns instantes para retornar ao Menu Principal");
-    //Sleep(3000); //NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
-    system ("cls");//LIMPA A TELA NO WINDOWS
+    printf("Número registrado com sucesso !\n");
+    printf("Aguarde alguns instantes para retornar ao Menu Principal");
+    // Sleep(3000); //NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
+    system("cls"); // LIMPA A TELA NO WINDOWS
 };
 void cadastraProfessor()
 {
@@ -321,14 +319,12 @@ void cadastraProfessor()
     TipoProfessor newProfessor;
 
     printf("Digite o nome do Professor: ");
-getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
     fgets(newProfessor.nomeProfessor, sizeof(newProfessor.nomeProfessor), stdin);
     newProfessor.nomeProfessor[strcspn(newProfessor.nomeProfessor, "\n")] = '\0';
-    
-
 
     printf("Digite o nome da disciplina a ser lecionada pelo mesmo: ");
-getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
+    getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
     fgets(newProfessor.disciplina, sizeof(newProfessor.disciplina), stdin);
     newProfessor.disciplina[strcspn(newProfessor.disciplina, "\n")] = '\0';
     getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
@@ -342,7 +338,6 @@ getchar(); //Adicionei a função getchar para resolver o bug e limpar o buffer 
     TipoItem item;
     item.professor = newProfessor;
     Insere(&item, &ProfessoresInstancia);
-
 };
 
 void matriculaAlunoEmTurma()
@@ -362,11 +357,30 @@ void matriculaAlunoEmTurma()
         return;
     }
 
-    getById(idAluno, AlunosInstancia); // TODO
+    getById(idAluno, AlunosInstancia)->aluno.idTurma = idTurma; // TODO
 
-        printf("Matricula realizada com sucesso!\n");
+    printf("Matricula realizada com sucesso!\n");
 };
-void designacaoProfessores(){};
+void designacaoProfessores()
+{
+    int idTurma, idProfessor;
+
+    printf("Digite o ID do professor: (apenas numeros)");
+    scanf("%d", &idProfessor);
+
+    printf("Digite o ID da turma desejado: ");
+    scanf("%d", &idTurma);
+
+    if (!getById(idProfessor, ProfessoresInstancia) || !getById(idTurma, TurmasInstancia))
+    {
+        printf("Professor ou turma nao encontrado!\n");
+        return;
+    }
+
+    getById(idProfessor, ProfessoresInstancia)->professor.idTurma = idTurma; // TODO
+
+    printf("Matricula realizada com sucesso!\n");
+};
 
 // void listaAlunos(){};
 // void listaCursos(){};
@@ -377,25 +391,25 @@ void Menu()
 {
     int continua = 1;
     int opcao = 0;
-int opcaoEncerrar;
-        printf("==== Escola Desenvolver ====\n");
-        printf("   _________  \n");
-        printf("  /         \\  \n");
-        printf(" |           | \n");
-        printf(" | [ ]   [ ] |\n");
-        printf(" |           |\n");
-        printf(" |Bem vindos!|\n");
-        printf(" |___________|\n");
-        printf(" |           |\n");
-        printf(" |           |\n");
-        printf(" |___________|\n");
-        printf ("A aprendizagem é a única coisa que a mente nunca se cansa, nunca tem medo e nunca se arrepende.- Leonardo da Vinci");
-        //Sleep(5000);
-        system ("cls");
+    int opcaoEncerrar;
+    printf("==== Escola Desenvolver ====\n");
+    printf("   _________  \n");
+    printf("  /         \\  \n");
+    printf(" |           | \n");
+    printf(" | [ ]   [ ] |\n");
+    printf(" |           |\n");
+    printf(" |Bem vindos!|\n");
+    printf(" |___________|\n");
+    printf(" |           |\n");
+    printf(" |           |\n");
+    printf(" |___________|\n");
+    printf("A aprendizagem é a única coisa que a mente nunca se cansa, nunca tem medo e nunca se arrepende.- Leonardo da Vinci");
+    // Sleep(5000);
+    system("cls");
 
-        printf ("Desenvolvido por: \nAdriano Victor N. Ribeiro\nAntônio Salgueiro Fernandes\nFilipe da Silva Ribeiro\nJoão Vitor Buissine\n");
-        //Sleep (10000);
-        system ("cls");
+    printf("Desenvolvido por: \nAdriano Victor N. Ribeiro\nAntônio Salgueiro Fernandes\nFilipe da Silva Ribeiro\nJoão Vitor Buissine\n");
+    // Sleep (10000);
+    system("cls");
     while (continua)
     {
         printf("1 - Cadastrar Aluno\n");
@@ -407,7 +421,7 @@ int opcaoEncerrar;
         printf("7 - Lista Cursos\n");
         printf("8 - Lista Turmas\n");
         printf("9 - Lista Professores\n");
-printf("10 - Finalizar Sessão \n");
+        printf("10 - Finalizar Sessão \n");
         printf("Digite o numero da opcao desejada: ");
 
         scanf("%d", &opcao);
@@ -442,20 +456,22 @@ printf("10 - Finalizar Sessão \n");
         case 9:
             ImprimeLista(ProfessoresInstancia);
             break;
-case 10:
-            printf ("Deseja encerrar o programa ? (1) = Sim - (AnyKey) = Não\n");
-            printf ("");
-            scanf ("%d",&opcaoEncerrar);
-            system ("cls");
-            if (opcaoEncerrar == 1){
-                printf ("O programa será finalizado em alguns instantes !\n");
-                printf ("Obrigado por utilizar o nosso serviço \n");
-                //Sleep (3000);
+        case 10:
+            printf("Deseja encerrar o programa ? (1) = Sim - (AnyKey) = Não\n");
+            printf("");
+            scanf("%d", &opcaoEncerrar);
+            system("cls");
+            if (opcaoEncerrar == 1)
+            {
+                printf("O programa será finalizado em alguns instantes !\n");
+                printf("Obrigado por utilizar o nosso serviço \n");
+                // Sleep (3000);
                 continua = 0;
                 break;
             }
-            else{
-              break;
+            else
+            {
+                break;
             }
             break;
         default:
@@ -475,7 +491,7 @@ int Confirma()
 
 int main()
 {
-    //setlocale (LC_ALL, "Portuguese");
+    // setlocale (LC_ALL, "Portuguese");
     Inicia(&AlunosInstancia);
     Inicia(&CursosInstancia);
     Inicia(&TurmasInstancia);
