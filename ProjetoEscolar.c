@@ -91,6 +91,38 @@ void Insere(TipoItem *x, TipoLista *Lista)
     Lista->tamanho++;
 }
 
+void Imprime1Aluno(TipoAluno aluno)
+{
+
+    printf("Matrícula: %d\n", aluno.ID);
+    printf("Nome: %s\n", aluno.nomeAluno);
+    printf("\n");
+};
+
+void Imprime1Curso(TipoCurso curso)
+{
+
+    printf("Nome do Curso: %s\n", curso.nomeDoCurso);
+    printf("Carga Horária: %d horas\n", curso.cargaHoraria);
+    printf("ID do Curso: %d\n", curso.ID);
+    printf("Descrição do Curso: %s\n", curso.descricaoCurso);
+    printf("\n");
+};
+void Imprime1Turma(TipoTurma turma)
+{
+
+    printf("Identificador da Turma: %d\n", turma.ID);
+    printf("Professor Responsável: %d\n", turma.idProfessor);
+
+};
+
+void Imprime1Professor(TipoProfessor professor)
+{
+    printf("Nome do Professor: %s\n", professor.nomeProfessor);
+    printf("Disciplina Lecionada: %s\n", professor.disciplina);
+    printf("\n");
+};
+
 void ImprimeLista(TipoLista Lista)
 {
     Apontador Aux;
@@ -122,38 +154,6 @@ void ImprimeLista(TipoLista Lista)
     }
 }
 
-void Imprime1Aluno(TipoAluno aluno)
-{
-
-    printf("Matrícula: %s\n", aluno.ID);
-    printf("Nome: %s\n", aluno.nomeAluno);
-    printf("\n");
-};
-
-void Imprime1Curso(TipoCurso curso)
-{
-
-    printf("Nome do Curso: %s\n", curso.nomeDoCurso);
-    printf("Carga Horária: %d horas\n", curso.cargaHoraria);
-    printf("ID do Curso: %d\n", curso.ID);
-    printf("Descrição do Curso: %s\n", curso.descricaoCurso);
-    printf("\n");
-};
-void Imprime1Turma(TipoTurma turma)
-{
-
-    printf("Identificador da Turma: %d\n", turma.ID);
-    printf("Professor Responsável: %s\n", turma.idProfessor);
-
-};
-
-void Imprime1Professor(TipoProfessor professor)
-{
-    printf("Nome do Professor: %s\n", professor.nomeProfessor);
-    printf("Disciplina Lecionada: %s\n", professor.disciplina);
-    printf("\n");
-};
-
 void DestroiLista(TipoLista *Lista)
 {
     Apontador Aux = Lista->Primeiro;
@@ -167,23 +167,6 @@ void DestroiLista(TipoLista *Lista)
     Lista->tamanho = 0;
 }
 
-int main()
-{
-    //setlocale (LC_ALL, "Portuguese");
-    Inicia(&AlunosInstancia);
-    Inicia(&CursosInstancia);
-    Inicia(&TurmasInstancia);
-    Inicia(&ProfessoresInstancia);
-
-    AlunosInstancia.TagTipo = 1;
-    CursosInstancia.TagTipo = 2;
-    TurmasInstancia.TagTipo = 3;
-    ProfessoresInstancia.TagTipo = 4;
-
-    Menu();
-
-    return 0;
-}
 
 TipoItem *getById(int idToSearch, TipoLista Lista)
 {
@@ -257,7 +240,7 @@ getchar();
     printf("Aluno Cadastrado com Sucesso !\n");
     printf("Aguarde alguns segundos para retornar ao Menu Principal");
 
-    Sleep(3000);   // NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
+    //Sleep(3000);   // NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
     system("cls"); // LIMPA A TELA NO WINDOWS
 
     TipoItem item;
@@ -297,11 +280,11 @@ getchar();//Adicionei a função getchar para resolver o bug e limpar o buffer d
 
     printf("Curso cadastrado com sucesso !");
     printf("Aguarde alguns segundos para retornar ao Menu Principal");
-    Sleep(3000);
+    //Sleep(3000);
 
     printf ("Curso cadastrado com sucesso !\n");
     printf ("Aguarde alguns segundos para retornar ao Menu Principal");
-    Sleep(3000);
+    //Sleep(3000);
     system("cls");
 
     TipoItem item;
@@ -329,7 +312,7 @@ void cadastraTurma()
 
     printf ("Número registrado com sucesso !\n");
     printf ("Aguarde alguns instantes para retornar ao Menu Principal");
-    Sleep(3000); //NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
+    //Sleep(3000); //NÃO APAGAR ESSA FUNÇÃO DEFINE O TEMPO DE TELA
     system ("cls");//LIMPA A TELA NO WINDOWS
 };
 void cadastraProfessor()
@@ -407,11 +390,11 @@ int opcaoEncerrar;
         printf(" |           |\n");
         printf(" |___________|\n");
         printf ("A aprendizagem é a única coisa que a mente nunca se cansa, nunca tem medo e nunca se arrepende.- Leonardo da Vinci");
-        Sleep(5000);
+        //Sleep(5000);
         system ("cls");
 
-        printf ("Desenvolvido por: \nAdriano Victor N. Ribeiro\nAntônio Salgueiro Fernandes\nFilipe da Silva Ribeiro\nJoão Vitor Buissine");
-        Sleep (10000);
+        printf ("Desenvolvido por: \nAdriano Victor N. Ribeiro\nAntônio Salgueiro Fernandes\nFilipe da Silva Ribeiro\nJoão Vitor Buissine\n");
+        //Sleep (10000);
         system ("cls");
     while (continua)
     {
@@ -467,7 +450,7 @@ case 10:
             if (opcaoEncerrar == 1){
                 printf ("O programa será finalizado em alguns instantes !\n");
                 printf ("Obrigado por utilizar o nosso serviço \n");
-                Sleep (3000);
+                //Sleep (3000);
                 continua = 0;
                 break;
             }
@@ -488,4 +471,22 @@ int Confirma()
     printf("Voce confirma? (0 cancela)");
     scanf("%d", &op);
     return op;
+}
+
+int main()
+{
+    //setlocale (LC_ALL, "Portuguese");
+    Inicia(&AlunosInstancia);
+    Inicia(&CursosInstancia);
+    Inicia(&TurmasInstancia);
+    Inicia(&ProfessoresInstancia);
+
+    AlunosInstancia.TagTipo = 1;
+    CursosInstancia.TagTipo = 2;
+    TurmasInstancia.TagTipo = 3;
+    ProfessoresInstancia.TagTipo = 4;
+
+    Menu();
+
+    return 0;
 }
