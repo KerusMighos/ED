@@ -196,51 +196,46 @@ int main()
     return 0;
 }
 
-int existeID(TipoLista *Lista, int idToSearch)
-{
+TipoItem* getById(TipoLista *Lista, int idToSearch) {
 
     Apontador Aux;
-    Aux = Lista.Primeiro;
-    while (Aux != NULL)
-    {
+    Aux = Lista->Primeiro;
 
-        TipoItem itemNow = Aux->Item;
+    while (Aux != NULL) {
 
-        switch (Lista.TagTipo)
-        {
-        case 1:
-            if (itemNow.aluno.ID == idToSearch)
-            {
-                return 1;
-            }
-            break;
-        case 2:
-            if (itemNow.curso.ID == idToSearch)
-            {
-                return 1;
-            }
-            break;
-        case 3:
-            if (itemNow.turma.ID == idToSearch)
-            {
-                return 1;
-            }
-            break;
-        case 4:
-            if (itemNow.professor.ID == idToSearch)
-            {
-                return 1;
-            }
-            break;
-        default:
-            break;
+        TipoItem *itemNow = &(Aux->Item);
+
+        switch (Lista->TagTipo) {
+            case 1:
+                if (itemNow->aluno.ID == idToSearch) {
+                    return itemNow;
+                }
+                break;
+            case 2:
+                if (itemNow->curso.ID == idToSearch) {
+                    return itemNow;
+                }
+                break;
+            case 3:
+                if (itemNow->turma.ID == idToSearch) {
+                    return itemNow;
+                }
+                break;
+            case 4:
+                if (itemNow->professor.ID == idToSearch) {
+                    return itemNow;
+                }
+                break;
+            default:
+                break;
         }
 
         Aux = Aux->Prox;
     }
 
-    return 0;
+    return NULL;
 }
+
 
 void cadastraAluno()
 {
