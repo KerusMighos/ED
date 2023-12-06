@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <windows.h>
+// #include <windows.h>
 
 typedef int TipoChave;
 
@@ -196,38 +196,45 @@ int main()
     return 0;
 }
 
-TipoItem* getById(TipoLista *Lista, int idToSearch) {
+TipoItem *getById(int idToSearch, TipoLista Lista)
+{
 
     Apontador Aux;
-    Aux = Lista->Primeiro;
+    Aux = Lista.Primeiro;
 
-    while (Aux != NULL) {
+    while (Aux != NULL)
+    {
 
         TipoItem *itemNow = &(Aux->Item);
 
-        switch (Lista->TagTipo) {
-            case 1:
-                if (itemNow->aluno.ID == idToSearch) {
-                    return itemNow;
-                }
-                break;
-            case 2:
-                if (itemNow->curso.ID == idToSearch) {
-                    return itemNow;
-                }
-                break;
-            case 3:
-                if (itemNow->turma.ID == idToSearch) {
-                    return itemNow;
-                }
-                break;
-            case 4:
-                if (itemNow->professor.ID == idToSearch) {
-                    return itemNow;
-                }
-                break;
-            default:
-                break;
+        switch (Lista.TagTipo)
+        {
+        case 1:
+            if (itemNow->aluno.ID == idToSearch)
+            {
+                return itemNow;
+            }
+            break;
+        case 2:
+            if (itemNow->curso.ID == idToSearch)
+            {
+                return itemNow;
+            }
+            break;
+        case 3:
+            if (itemNow->turma.ID == idToSearch)
+            {
+                return itemNow;
+            }
+            break;
+        case 4:
+            if (itemNow->professor.ID == idToSearch)
+            {
+                return itemNow;
+            }
+            break;
+        default:
+            break;
         }
 
         Aux = Aux->Prox;
@@ -235,7 +242,6 @@ TipoItem* getById(TipoLista *Lista, int idToSearch) {
 
     return NULL;
 }
-
 
 void cadastraAluno()
 {
@@ -251,10 +257,10 @@ void cadastraAluno()
 
     scanf("%d", &newAluno.ID);
 
-    if (existeID(AlunosInstancia, newAluno.ID))
+    if (getById(newAluno.ID, AlunosInstancia))
     {
         printf("Essa matricula ja está em uso!!!");
-        return
+        return;
     }
 
     system("cls");
@@ -293,7 +299,7 @@ void cadastraCurso()
     getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado.
     system("cls");
 
-    if (existeID(CursosInstancia, newCurso.ID))
+    if (getById(CursosInstancia, newCurso.ID))
     {
         printf("Esse id de curso já em uso!!!");
         return
@@ -316,7 +322,7 @@ void cadastraTurma()
     scanf("%d", &newTurma.ID);
     getchar();
 
-    if (existeID(TurmasInstancia, newTurma.ID))
+    if (getById(TurmasInstancia, newTurma.ID))
     {
         printf("Esse id de turma já em uso!!!");
         return
@@ -344,7 +350,7 @@ void cadastraProfessor()
     newProfessor.disciplina[strcspn(newProfessor.disciplina, "\n")] = '\0';
     getchar(); // Adicionei a função getchar para resolver o bug e limpar o buffer do teclado
 
-    if (existeID(ProfessoresInstancia, newProfessor.ID))
+    if (getById(ProfessoresInstancia, newProfessor.ID))
     {
         printf("Esse id de professor já em uso!!!");
         return
@@ -357,7 +363,7 @@ void cadastraProfessor()
 
 void matriculaAlunoEmTurma()
 {
-  
+
     int idTurma, idAluno;
 
     printf("Digite a matricula do aluno: (apenas numeros)");
@@ -366,15 +372,15 @@ void matriculaAlunoEmTurma()
     printf("Digite o ID da turma desejado: ");
     scanf("%d", &idTurma);
 
-    if (!existeID(AlunosInstancia, idAluno) || !existeID(TurmasInstancia, idTurma))
+    if (!getById(idAluno, AlunosInstancia) || !getById(idTurma, TurmasInstancia))
     {
         printf("Aluno ou turma nao encontrado!\n");
         return
     }
 
-    getById(idAluno, AlunosInstancia) // TODO
+    getById(idAluno, AlunosInstancia); // TODO
 
-    printf("Matricula realizada com sucesso!\n");
+        printf("Matricula realizada com sucesso!\n");
 };
 void designacaoProfessores(){};
 
